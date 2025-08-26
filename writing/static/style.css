@@ -673,6 +673,15 @@ body {
 /* --- Media Queries per la Responsività --- */
 @media (max-width: 992px) {
     /* Regole per la Navbar e Sidebar mobile */
+     .navbar-right .nav-button {
+        display: block; /* O display: inline-block; */
+    }
+
+    /* Nasconde il pulsante di logout nella navbar-right quando lo schermo è piccolo.
+       Questo pulsante sarà gestito dal menu a scomparsa. */
+    .navbar-right #logout-button {
+        display: none;
+    }
     .navbar {
         flex-wrap: wrap;
         justify-content: center;
@@ -714,9 +723,6 @@ body {
     .sidebar .mobile-only-login,
     .sidebar .mobile-only-logout {
         display: block;
-    }
-    .navbar-right .nav-button {
-        display: none;
     }
     .navbar-right #logout-button {
         display: inline-block;
