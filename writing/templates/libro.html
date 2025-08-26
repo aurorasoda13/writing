@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}{{ result[1] }}{% endblock %}
+
+{% block content %}
+
+<div class="main-layout-container" data-book-id="{{ result[0] }}">
+    <div class="left-fixed-sidebar">
+        <h2>Informazioni Libro</h2>
+        <div class="book-detail-content-sidebar">
+            <h3>{{ result[1] }}</h3>
+            <p><strong>Trama:</strong> {{ result[2] }}</p>
+            {% if result[3] %}
+                <p><strong>Sinossi:</strong> {{ result[3] }}</p>
+            {% endif %}
+            <p><strong>Genere:</strong> {{ result[4] }}</p>
+
+            {% if tags %}
+                <p><strong>Sottogeneri:</strong></p>
+                <div class="book-tags-list">
+                    {% for tag_item in tags %}
+                        <span class="book-tag"> {{ tag_item[0] }} </span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="selection-section">
+            <h3>Sfoglia Elementi del Mondo</h3>
+            <div class="selection-buttons">
+                <button class="select-btn" data-type="personaggi">Personaggi</button>
+                <button class="select-btn" data-type="luoghi">Luoghi</button>
+                <button class="select-btn" data-type="oggetti">Oggetti</button>
+            </div>
+
+            <div class="selection-dropdown-container">
+                <select id="item-selector" class="form-select" style="display: none;">
+                    <option value="">Seleziona un elemento...</option>
+                </select>
+            </div>
+
+            <div id="item-details" class="item-details-box" style="display: none;">
+                </div>
+        </div>
+        </div>
+
+    <div class="right-main-content-area">
+        <div class="links-container-right">
+    <a href="/personaggio/{{ result[0] }}" class="detail-action-link">Crea un nuovo Personaggio</a>
+    <a href="/capitolo/{{ result[0] }}" class="detail-action-link">Crea un nuovo Capitolo</a>
+    <a href="/luogo/{{ result[0] }}" class="detail-action-link">Crea un nuovo Luogo</a>
+    <a href="/oggetto/{{ result[0] }}" class="detail-action-link">Crea un nuovo Oggetto</a>
+    <a href="/download_book_docx/{{ result[0] }}" class="detail-action-link">Scarica Libro in Word</a>
+    <a href="/elimina_libro/{{ result[0] }}"
+       class="detail-action-link"
+       onclick="return confirm('Sei sicuro di voler eliminare questo libro? Questa azione è irreversibile e cancellerà anche tutti i capitoli, personaggi, luoghi e oggetti ad esso collegati.')">Elimina Libro</a>
+</div>
+
+        <h1>I tuoi capitoli:</h1>
+        <div class="chapters-grid">
+            {% for capitolo in capitoli %}
+               <div class="chapter-card">
+                   <a href="/modificacap/{{ result[0] }}/{{ capitolo[1] }}" class="chapter-link">
+                     {{ capitolo[0] }}
+                   </a>
+                   
+               </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <section id="home-section" class="home-section">
+        <h2>Libera la Tua Immaginazione con WriterApp!</h2>
+        <p>Sei un autore in cerca dello strumento perfetto per dare vita alle tue storie? La nostra applicazione di scrittura è progettata per offrirti un controllo completo su ogni aspetto della tua narrazione.</p>
+        <p>Dalla creazione dettagliata dei tuoi <b>personaggi</b>, con schede personalizzabili per ogni loro caratteristica e evoluzione, alla definizione minuziosa dei <b>luoghi</b> che faranno da sfondo alle tue avventure, fino alla <b>stesura organizzata di ogni capitolo del tuo libro.</b></p>
+        <p>Con WriterApp, potrai gestire trame complesse, tenere traccia di ogni filo narrativo e concentrarti unicamente sulla tua creatività. Prepara il tuo prossimo capolavoro!</p>
+        <button class="call-to-action-button" onclick="location.href='{{ url_for('nuovolibro') }}'">Inizia a Scrivere Ora!</button>
+    </section>
+{% endblock %}

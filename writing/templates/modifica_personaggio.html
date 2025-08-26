@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}{{ personaggio[0]}}{% endblock %}
+
+{% block content %}
+
+<div class="main-layout-container">
+    <div class="left-fixed-sidebar">
+        <h2>Informazioni Libro</h2>
+        <div class="book-detail-content-sidebar">
+            <h3>{{ result[1] }}</h3>
+            <p><strong>Trama:</strong> {{ result[2] }}</p>
+            {% if result[3] %}
+                <p><strong>Sinossi:</strong> {{ result[3] }}</p>
+            {% endif %}
+            <p><strong>Genere:</strong> {{ result[4] }}</p>
+
+            {% if tags %}
+                <p><strong>Sottogeneri:</strong></p>
+                <div class="book-tags-list">
+                    {% for tag_item in tags %}
+                        <span class="book-tag"> {{ tag_item[0] }} </span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="right-main-content-area">
+        <form action="{{ url_for('editpersonaggio') }}" method="POST" class="personaggio-form">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" value="{{personaggio[0]}}" required>
+            </div>
+            <div class="form-group">
+                <label for="alias">Alias</label>
+                <input type="text" id="alias" name="alias" value="{{personaggio[1]}}" required>
+            </div>
+            <div class="form-group">
+                <label for="descrizione-fisica">Descrizione Fisica</label>
+                <textarea id="descrizione-fisica" name="descrizione-fisica" rows="30" required>{{personaggio[2]}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="ruolo">Seleziona il ruolo</label>
+                <select name="ruolo" id="ruolo" required>
+                    {% for element in ruoli %}
+                        <option value="{{ element[0] }}" {% if element[0] == personaggio[7] %} selected {% endif %}>{{ element[0] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                 <label for="psicologia">Psicologia</label>
+                <textarea id="psicologia" name="psicologia" rows="30" required>{{personaggio[3]}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="obiettivi">Obiettivi</label>
+                <textarea id="obiettivi" name="obiettivi" rows="30" required>{{personaggio[4]}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="background">Background</label>
+                <textarea id="background" name="background" rows="30" required>{{personaggio[5]}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="note">Note</label>
+                <textarea id="note" name="note" rows="30">{{personaggio[6]}}</textarea>
+            </div>
+
+            <input type="hidden" name="idlibro" value="{{ idlibro }}">
+            <input type="hidden" name="idpersonaggio" value="{{ idpersonaggio }}">
+            <button type="submit" class="submit-button">Salva modifiche</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

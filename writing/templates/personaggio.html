@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Nuovo Personaggio{% endblock %}
+
+{% block content %}
+<section id="create-personaggio-section" class="create-personaggio-section active">
+    <h2>Crea il Tuo Nuovo Personaggio</h2>
+    <form action="{{ url_for('executepersonaggio') }}" method="POST" class="personaggio-form">
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" required>
+        </div>
+         <div class="form-group">
+            <label for="alias">Alias</label>
+            <input type="text" id="alias" name="alias" required>
+        </div>
+        <div class="form-group">
+            <label for="descrizione-fisica">Descrizione Fisica</label>
+            <textarea id="descrizione-fisica" name="descrizione-fisica" rows="30" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="ruolo">Seleziona il ruolo</label>
+            <select name="ruolo" id="ruolo" required>
+                {% for element in result %}
+                    <option value="{{ element[0] }}">{{ element[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+             <label for="psicologia">Psicologia</label>
+            <textarea id="psicologia" name="psicologia" rows="30" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="obiettivi">Obiettivi</label>
+            <textarea id="obiettivi" name="obiettivi" rows="30" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="background">Background</label>
+            <textarea id="background" name="background" rows="30" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="note">Note</label>
+            <textarea id="note" name="note" rows="30"></textarea>
+        </div>
+
+
+
+        <input type="hidden" name="idlibro" value="{{ idlibro }}">
+        <button type="submit" class="submit-button">Crea</button>
+    </form>
+</section>
+{% endblock %}

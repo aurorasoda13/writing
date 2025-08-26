@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+   <section class="home-section">
+       <h1>Benvenuto {{ nome }}!</h1>
+       <p>Sei pronto a continuare la tua storia?</p>
+       <button class="call-to-action-button" onclick="location.href='{{ url_for('nuovolibro') }}'">Continua a Scrivere!</button>
+       {# Il pulsante di logout è ora nella navbar in base.html #}
+   </section>
+{% endblock %}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - WriterApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="navbar-left">
+            <button id="menu-toggle" class="menu-toggle-button">☰ Menu</button>
+            <a href="{{ url_for('index') }}" class="nav-button home-button">Home</a>
+        </div>
+        <div class="navbar-center">
+            <h1>WriterApp</h1>
+        </div>
+        <div class="navbar-right">
+            {% if session.get("utente") %}
+                <button id="logout-button" class="nav-button" onclick="location.href='{{ url_for('logout') }}'">Logout</button>
+            {% else %}
+                <button id="login-button" class="nav-button" onclick="location.href='{{ url_for('accesso') }}'">Login</button>
+                <button id="register-button" class="nav-button" onclick="location.href='{{ url_for('registrazione') }}'">Registrati</button>
+            {% endif %}
+        </div>
+    </header>
+
+    <aside id="sidebar" class="sidebar">
+        <button id="close-sidebar" class="close-sidebar-button">X</button>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="{{ url_for('nuovolibro') }}" class="sidebar-link">Aggiungi nuovo libro</a></li>
+                <li><a href="{{ url_for('ituoilibri') }}" class="sidebar-link">I Miei Libri</a></li>
+                <li><a href="#" class="sidebar-link">Personaggi</a></li>
+                <li><a href="#" class="sidebar-link">Luoghi</a></li>
+                <li><a href="#" class="sidebar-link">Impostazioni</a></li>
+                
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

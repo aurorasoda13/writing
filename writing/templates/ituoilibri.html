@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}I tuoi libri{% endblock %}
+
+{% block content %}
+<h2 class="content-list-section h2">I tuoi libri</h2>
+
+<div class="books-grid-container">
+  {% for book in result %}
+  <a href="/libro/{{ book[0] }}" class="book-card-link"> {# Ho creato una nuova classe 'book-card-link' #}
+    <div class="book-card-content"> {# Contenitore per il contenuto della card #}
+      <h3>{{ book[1] }}</h3>
+      <p><strong>Trama:</strong> {{ book[2] }}</p>
+      <p><strong>Genere:</strong> {{ book[3] }}</p>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+{% if not result %}
+    <p style="text-align: center; margin-top: 20px; color: var(--text-dark);">Nessun libro trovato per te.</p>
+    <div style="text-align: center; margin-top: 20px;">
+        <button class="call-to-action-button" onclick="location.href='{{ url_for('nuovolibro') }}'">Aggiungi il tuo primo libro!</button>
+    </div>
+{% endif %}
+
+{% endblock %}

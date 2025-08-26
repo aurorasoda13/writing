@@ -1,0 +1,70 @@
+appunti programma scrittura
+
+mancano le tabelle appunti
+
+LUOGO
+
+
+Campi da aggiungere
+
+
+    Mappa o immagine (facoltativa)
+
+    Personaggi legati a quel luogo
+
+    Libro/i di appartenenza
+
+🗡️ OGGETTO (opzionale ma interessante!)
+
+
+Campi da aggiungere
+
+   
+
+    Capitoli in cui compare
+
+    Immagine
+
+
+
+
+AI per esercitazione: form precompilato da ai, solo testo capitolo da scrivere
+
+lavora sulla linea del tempo
+
+appunti riferiti sia a libri xhe generali
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create table public.personaggio_personaggio (
+  id bigint generated always as identity not null,
+  idpersonaggio1 bigint null,
+  idpersonaggio2 bigint null,
+  rapporto text null,
+  constraint personaggio_personaggio_pkey primary key (id),
+  constraint personaggio_personaggio_idpersonaggio1_fkey foreign KEY (idpersonaggio1) references personaggio (id),
+  constraint personaggio_personaggio_idpersonaggio2_fkey foreign KEY (idpersonaggio2) references personaggio (id)
+) TABLESPACE pg_default;
+
+

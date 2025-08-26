@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}{{ luogo[0]}}{% endblock %}
+
+{% block content %}
+
+<div class="main-layout-container">
+    <div class="left-fixed-sidebar">
+        <h2>Informazioni Libro</h2>
+        <div class="book-detail-content-sidebar">
+            <h3>{{ result[1] }}</h3>
+            <p><strong>Trama:</strong> {{ result[2] }}</p>
+            {% if result[3] %}
+                <p><strong>Sinossi:</strong> {{ result[3] }}</p>
+            {% endif %}
+            <p><strong>Genere:</strong> {{ result[4] }}</p>
+
+            {% if tags %}
+                <p><strong>Sottogeneri:</strong></p>
+                <div class="book-tags-list">
+                    {% for tag_item in tags %}
+                        <span class="book-tag"> {{ tag_item[0] }} </span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="right-main-content-area">
+            <form action="{{ url_for('editluogo') }}" method="POST" class="personaggio-form">
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" value="{{luogo[0]}}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="tipo">Seleziona il Tipo di luogo</label>
+            <select name="tipo" id="tipo" required>
+                {% for element in tipi_luoghi %}
+                    <option value="{{ element[0] }}">{{ element[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="luogon">Nuovo tipo di luogo</label>
+            <input type="text" id="luogon" name="luogon">
+        </div>
+
+        
+
+        <div class="form-group">
+            <label for="descrizione">Descrizione</label>
+        </div>
+        <textarea id="descrizione" name="descrizione" rows="10" required>{{luogo[1]}}</textarea>
+
+        <div class="form-group">
+            <label for="eventi">Eventi Accaduti</label>
+            <textarea id="eventi" name="eventi" rows="10" required>{{luogo[2]}}</textarea>
+        </div>
+
+
+        <div class="form-group">
+            <label for="note">Note</label>
+            <textarea id="note" name="note" rows="10" required>{{luogo[3]}}</textarea>
+        </div>
+        <input type="hidden" name="book_id" value="{{ idlibro }}">
+        <input type="hidden" name="luogo_id" value="{{ idluogo }}">
+        <button type="submit" class="submit-button">Modifica</button>
+    </form>
+    </div>
+</div>
+
+{% endblock %}

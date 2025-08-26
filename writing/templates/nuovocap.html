@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Nuovo Capitolo{% endblock %}
+
+{% block content %}
+
+<form action="/executecap" method="POST" class="chapter-creation-form">
+    {# Il div chapter-creation-container è stato rimosso per applicare il layout direttamente al form #}
+    <div class="chapter-left-column">
+    <h2>Seleziona le informazioni</h2>
+
+    <div class="form-group">
+        <label for="titolo">Titolo:</label>
+        <input type="text" id="titolo" name="titolo" required>
+    </div>
+
+    <div class="form-group">
+        <label for="capitolo">Numero del capitolo:</label>
+        <input type="number" id="capitolo" name="capitolo">
+    </div>
+
+    {% if personaggi %}
+    <div class="form-group">
+        <fieldset class="form-fieldset">
+            <legend>Seleziona i personaggi</legend>
+            <div class="tags-container">
+                {% for personaggio in personaggi %}
+                <div>
+                    <input type="checkbox" name="personaggi[]" id="personaggio_{{ loop.index }}" value="{{ personaggio[0] }}">
+                    <label for="personaggio_{{ loop.index }}">{{ personaggio[0] }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </fieldset>
+    </div>
+    {% endif %}
+
+    {% if luoghi %}
+    <div class="form-group">
+        <fieldset class="form-fieldset">
+            <legend>Seleziona i luoghi</legend>
+            <div class="tags-container">
+                {% for luogo in luoghi %}
+                <div>
+                    <input type="checkbox" name="luoghi[]" id="luogo_{{ loop.index }}" value="{{ luogo[0] }}">
+                    <label for="luogo_{{ loop.index }}">{{ luogo[0] }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </fieldset>
+    </div>
+    {% endif %}
+
+    {% if oggetti %}
+    <div class="form-group">
+        <fieldset class="form-fieldset">
+            <legend>Seleziona gli oggetti</legend>
+            <div class="tags-container">
+                {% for oggetto in oggetti %}
+                <div>
+                    <input type="checkbox" name="oggetti[]" id="oggetto_{{ loop.index }}" value="{{ oggetto[0] }}">
+                    <label for="oggetto_{{ loop.index }}">{{ oggetto[0] }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </fieldset>
+    </div>
+    {% endif %}
+
+    <div class="form-group">
+        <label for="riassunto">Riassunto</label>
+        <textarea id="riassunto" name="riassunto" rows="10"></textarea>
+    </div>
+</div>
+
+
+    <div class="chapter-right-column">
+        <h1>Testo del Capitolo</h1>
+        <textarea id="testo" name="testo" rows="50"></textarea> {# Adjusted rows for better initial view #}
+        <input type="hidden" name="book_id" value="{{ book_id }}">
+        <button type="submit" class="submit-button">Salva Capitolo</button> {# Placed submit button here for better visibility #}
+    </div>
+</form>
+
+{% endblock %}

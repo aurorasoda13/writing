@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Inserisci{% endblock %}
+
+{% block content %}
+<section id="create-personaggio-section" class="create-personaggio-section active">
+    <h2>Crea il Tuo Nuovo Oggetto</h2>
+    <form action='/executeoggetto' method="POST" class="personaggio-form">
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" required>
+        </div>
+
+        <div class="form-group">
+            <label for="proprietario">Seleziona il Proprietario dell'Oggetto</label>
+            <select name="proprietario" id="proprietario" required>
+                {% for element in personaggi %}
+                    <option value="{{ element[0] }}">{{ element[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="descrizione">Descrizione</label>
+            <textarea id="descrizione" name="descrizione" rows="10" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="funzione">Funzione</label>
+            <textarea id="funzione" name="funzione" rows="10" required></textarea>
+        </div>
+
+
+        <div class="form-group">
+            <label for="potere">Potere</label>
+            <textarea id="potere" name="potere" rows="10" required></textarea>
+        </div>
+        
+         <div class="form-group">
+            <label for="storia">Storia</label>
+            <textarea id="storia" name="storia" rows="10" required></textarea>
+        </div>
+
+         <div class="form-group">
+            <label for="provenienza">Provenienza</label>
+            <textarea id="provenienza" name="provenienza" rows="10" required></textarea>
+        </div>
+        
+        <input type="hidden" name="book_id" value="{{ book_id }}">
+
+        <button type="submit" class="submit-button">Crea</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block title %}Modifica Capitolo{% endblock %}
+
+{% block content %}
+
+<form method="POST" action="/executecapm" class="chapter-creation-form">
+    <div class="chapter-left-column">
+        <h2>Modifica Capitolo</h2>
+
+        <div class="form-group">
+            <label for="titolo">Titolo:</label>
+            <input type="text" id="titolo" name="titolo" value="{{ capitolo[0] }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="capitolo_numero">Numero del capitolo:</label>
+            <input type="number" id="capitolo_numero" name="numero_cap" value="{{ capitolo[1] }}">
+        </div>
+
+        {% if pers_sel or altri_pers %}
+        <div class="form-group">
+            <fieldset class="form-fieldset">
+                <legend>Seleziona i personaggi</legend>
+                <div class="tags-container">
+                    {% for personaggio in pers_sel %}
+                    <div>
+                        <input type="checkbox" name="personaggi[]" id="personaggio_sel_{{ loop.index }}" value="{{ personaggio[0] }}" checked>
+                        <label for="personaggio_sel_{{ loop.index }}">{{ personaggio[0] }}</label>
+                    </div>
+                    {% endfor %}
+                    {% for personaggio in altri_pers %}
+                    <div>
+                        <input type="checkbox"
+                            name="personaggi[]"
+                            id="personaggio_altri_{{ loop.index }}"
+                            value="{{ personaggio[0] }}">
+                        <label for="personaggio_altri_{{ loop.index }}">{{ personaggio[0] }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </fieldset>
+        </div>
+        {% endif %}
+
+        {% if luoghi_sel or altri_luoghi %}
+        <div class="form-group">
+            <fieldset class="form-fieldset">
+                <legend>Seleziona i luoghi</legend>
+                <div class="tags-container">
+                    {% for luogo in luoghi_sel %}
+                    <div>
+                        <input type="checkbox" name="luoghi[]" id="luogo_sel_{{ loop.index }}" value="{{ luogo[0] }}" checked>
+                        <label for="luogo_sel_{{ loop.index }}">{{ luogo[0] }}</label>
+                    </div>
+                    {% endfor %}
+                    {% for luogo in altri_luoghi %}
+                    <div>
+                        <input type="checkbox"
+                            name="luoghi[]"
+                            id="luogo_altri_{{ loop.index }}"
+                            value="{{ luogo[0] }}">
+                        <label for="luogo_altri_{{ loop.index }}">{{ luogo[0] }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </fieldset>
+        </div>
+        {% endif %}
+
+        {% if oggetti_sel or altri_oggetti %}
+        <div class="form-group">
+            <fieldset class="form-fieldset">
+                <legend>Seleziona gli oggetti</legend>
+                <div class="tags-container">
+                    {% for oggetto in oggetti_sel %}
+                    <div>
+                        <input type="checkbox" name="oggetti[]" id="oggetto_sel_{{ loop.index }}" value="{{ oggetto[0] }}" checked>
+                        <label for="oggetto_sel_{{ loop.index }}">{{ oggetto[0] }}</label>
+                    </div>
+                    {% endfor %}
+                    {% for oggetto in altri_oggetti %}
+                    <div>
+                        <input type="checkbox"
+                            name="oggetti[]"
+                            id="oggetto_altri_{{ loop.index }}"
+                            value="{{ oggetto[0] }}">
+                        <label for="oggetto_altri_{{ loop.index }}">{{ oggetto[0] }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </fieldset>
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="riassunto">Riassunto:</label>
+            <textarea id="riassunto" name="riassunto" rows="10">{{ capitolo[2] }}</textarea>
+        </div>
+    </div>
+    
+
+    <div class="chapter-right-column">
+        <h1>Testo del Capitolo</h1>
+        <textarea id="testo" name="testo" rows="50">{{ capitolo[3]}}</textarea> {# Adjusted rows for better initial view #}
+        <input type="hidden" name="book_id" value="{{ book_id }}">
+        
+        <input type="hidden" name="cap_id" value="{{ cap_id }}">
+        <button type="submit" class="submit-button">Salva Capitolo</button> {# Placed submit button here for better visibility #}
+    </div>
+</form>
+
+<hr style="margin: 20px 0;">
+<div class="delete-section">
+    <h3>Opzioni Avanzate</h3>
+    <form action="{{ url_for('eliminacapitolo') }}" method="POST">
+        <input type="hidden" name="book_id" value="{{ book_id }}">
+        <input type="hidden" name="capitolo_id" value="{{ cap_id }}">
+        <button type="submit" class="delete-btn-large" onclick="return confirm('Sei sicuro di voler eliminare questo capitolo? L\'operazione non può essere annullata!');">
+            Elimina Capitolo
+        </button>
+    </form>
+</div>
+{% endblock %}

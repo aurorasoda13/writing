@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Inserisci{% endblock %}
+
+{% block content %}
+<section id="create-personaggio-section" class="create-personaggio-section active">
+    <h2>Crea il Tuo Nuovo Luogo</h2>
+    <form action="/executeluogo" method="POST" class="personaggio-form">
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" required>
+        </div>
+
+        <div class="form-group">
+            <label for="tipo">Seleziona il Tipo di luogo</label>
+            <select name="tipo" id="tipo" required>
+                {% for element in tipo_luogo %}
+                    <option value="{{ element[0] }}">{{ element[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="luogon">Nuovo tipo di luogo</label>
+            <input type="luogon" id="luogon" name="luogon">
+        </div>
+
+        
+
+        <div class="form-group">
+            <label for="descrizione">Descrizione</label>
+            <textarea id="descrizione" name="descrizione" rows="10" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="eventi">Eventi Accaduti</label>
+            <textarea id="eventi" name="eventi" rows="10" required></textarea>
+        </div>
+
+
+        <div class="form-group">
+            <label for="note">Note</label>
+            <textarea id="note" name="note" rows="10" required></textarea>
+        </div>
+        <input type="hidden" name="book_id" value="{{ book_id }}">
+
+        <button type="submit" class="submit-button">Crea</button>
+    </form>
+</section>
+{% endblock %}
