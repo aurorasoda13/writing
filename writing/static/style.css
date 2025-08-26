@@ -707,7 +707,7 @@ body {
         margin-right: 10px;
     }
   .sidebar {
-        top: 60px; /* Riduci l'altezza per schermi più piccoli */
+        top: 120px; /* Riduci l'altezza per schermi più piccoli */
         height: calc(100% - 60px); /* Assicura che la sidebar occupi lo spazio rimanente */
     }
 

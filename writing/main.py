@@ -724,7 +724,7 @@ def get_item_details(tipo, item_id):
     details = {}
     print(tipo)
     try:
-        if tipo == 'personagg':
+        if tipo == 'personaggi':
             # Query semplificata per i dettagli del personaggio
             sql = """SELECT p.nome, p.alias, p.descrizione_fisica, p.psicologia, p.obiettivi, p.background, p.note, r.nome as ruolo_nome 
                      FROM personaggio p 
@@ -743,7 +743,7 @@ def get_item_details(tipo, item_id):
                     "Note": result[6],
                     "Ruolo": result[7]
                 }
-        elif tipo == 'luogh':
+        elif tipo == 'luoghi':
             # Query semplificata per i dettagli del luogo
             sql = """SELECT lu.nome, lu.descrizione, lu.eventiaccaduti, lu.note, tl.nome as tipo_nome 
                      FROM luogo lu 
@@ -760,7 +760,7 @@ def get_item_details(tipo, item_id):
                     "Note": result[3],
                     "Tipo di Luogo": result[4]
                 }
-        elif tipo == 'oggett':
+        elif tipo == 'oggetti':
             # Query semplificata per i dettagli dell'oggetto
             sql = """SELECT o.nome, o.descrizione, o.funzione, o.potere, o.storia, o.provenienza, pers.nome as proprietario_nome
                      FROM oggetto o 

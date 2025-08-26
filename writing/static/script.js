@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
     const closeSidebar = document.getElementById('close-sidebar');
-    const mainContent = document.querySelector('main'); 
+    const mainContent = document.querySelector('main');
 
     if (menuToggle) {
         menuToggle.addEventListener('click', () => {
@@ -31,79 +31,91 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Inizio nuove funzionalità per libro.html ---
-
     const selectButtons = document.querySelectorAll('.select-btn');
     const itemSelector = document.getElementById('item-selector');
     const itemDetailsDiv = document.getElementById('item-details');
     const mainContainer = document.querySelector('.main-layout-container');
 
-    // Mappatura delle proprietà per ogni tipo di elemento
     const propertyMap = {
-        personaggi: ['nome', 'descrizione', 'sesso', 'razza', 'professione', 'note', 'is_protagonista'],
-        luoghi: ['nome', 'descrizione', 'eventiaccaduti', 'note', 'tipo_luogo'],
-        oggetti: ['nome', 'descrizione', 'funzione', 'potere', 'storia', 'provenienza', 'proprietario']
+        personagg: ['Nome', 'Alias', 'Descrizione Fisica', 'Psicologia', 'Obiettivi', 'Background', 'Note', 'Ruolo'],
+        luogh: ['Nome', 'Descrizione', 'Eventi Accaduti', 'Note', 'Tipo di Luogo'],
+        oggett: ['Nome', 'Descrizione', 'Funzione', 'Potere', 'Storia', 'Provenienza', 'Proprietario']
     };
 
     if (selectButtons.length > 0) {
         selectButtons.forEach(button => {
             button.addEventListener('click', () => {
-                const type = button.getAttribute('data-type');
-                itemSelector.setAttribute('data-type', type);
-                itemSelector.style.display = 'block';
-                itemDetailsDiv.style.display = 'none';
+                const currentType = button.dataset.type;
+                const bookId = mainContainer.dataset.bookId;
+                const apiUrl = `/api/${currentType}/${bookId}`;
 
-                fetch(`/api/${type}/${mainContainer.getAttribute('data-book-id')}`)
+                // Aggiungi la classe 'active' al pulsante cliccato e rimuovila dagli altri
+                selectButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // ✅ FIX: Imposta il 'data-type' sull'elemento `itemSelector`
+                itemSelector.setAttribute('data-type', currentType);
+
+                fetch(apiUrl)
                     .then(response => response.json())
                     .then(data => {
                         itemSelector.innerHTML = '<option value="">Seleziona un elemento...</option>';
                         data.forEach(item => {
                             const option = document.createElement('option');
-                            option.value = item[1];
-                            option.textContent = item[0];
+                            option.value = item.id;
+                            option.textContent = item.nome;
                             itemSelector.appendChild(option);
                         });
+                        itemSelector.style.display = 'block';
+                        itemDetailsDiv.style.display = 'none';
                     })
-                    .catch(error => console.error('Error fetching items:', error));
+                    .catch(error => {
+                        console.error(`Errore durante il fetch degli elementi di tipo ${currentType}:`, error);
+                        itemSelector.innerHTML = `<option value="">Errore di caricamento</option>`;
+                    });
             });
         });
 
         itemSelector.addEventListener('change', () => {
             const selectedItemId = itemSelector.value;
+            // Leggi il 'data-type' dall'elemento stesso
             const currentType = itemSelector.getAttribute('data-type');
             const bookId = mainContainer.getAttribute('data-book-id');
 
-            if (selectedItemId) {
+            if (selectedItemId && currentType) {
                 fetch(`/api/dettagli/${currentType}/${selectedItemId}`)
                     .then(response => response.json())
                     .then(details => {
                         if (details) {
-                            // Uso il primo elemento della tupla come titolo
-                            let htmlContent = `<h4>${details[0]}</h4>`;
-                            
-                            // Utilizzo la mappatura per iterare i dettagli
+                            let htmlContent = '';
                             const keys = propertyMap[currentType];
-                            for (let i = 1; i < details.length; i++) {
-                                // Evito di mostrare campi nulli o vuoti
-                                if (details[i] !== null && details[i] !== '' && keys[i]) {
-                                    const keyName = keys[i].replace(/_/g, ' '); // Rimuovo gli underscore dai nomi delle chiavi
-                                    htmlContent += `<p><strong>${keyName.charAt(0).toUpperCase() + keyName.slice(1)}:</strong> ${details[i]}</p>`;
+                            let firstDetail = true;
+
+                            for (const key in details) {
+                                if (details[key] !== null && details[key] !== '') {
+                                    if (firstDetail) {
+                                        // Usa il primo dettaglio come titolo
+                                        htmlContent += `<h4>${details[key]}</h4>`;
+                                        firstDetail = false;
+                                    } else {
+                                        htmlContent += `<p><strong>${key}:</strong> ${details[key]}</p>`;
+                                    }
                                 }
                             }
-                            
-                            // Aggiungo i link di modifica in base al tipo
+
+                            // Aggiungi i link di modifica in base al tipo
                             if (currentType === 'personaggi') {
                                 htmlContent += `<a href="/modificapersonaggio/${bookId}/${selectedItemId}" class="edit-btn">Modifica Personaggio</a>`;
-                            }
-                            if (currentType === 'luoghi') {
+                            } else if (currentType === 'luoghi') {
                                 htmlContent += `<a href="/modificaluogo/${bookId}/${selectedItemId}" class="edit-btn">Modifica Luogo</a>`;
-                            }
-                            if (currentType === 'oggetti') {
+                            } else if (currentType === 'oggetti') {
                                 htmlContent += `<a href="/modificaoggetto/${bookId}/${selectedItemId}" class="edit-btn">Modifica Oggetto</a>`;
                             }
 
                             itemDetailsDiv.innerHTML = htmlContent;
                             itemDetailsDiv.style.display = 'block';
+                        } else {
+                             itemDetailsDiv.innerHTML = `<p style="color: red;">Dettagli non trovati.</p>`;
                         }
                     })
                     .catch(error => {
