@@ -706,10 +706,11 @@ body {
     .menu-toggle-button {
         margin-right: 10px;
     }
-
-    .sidebar {
-        width: 200px;
+  .sidebar {
+        top: 60px; /* Riduci l'altezza per schermi più piccoli */
+        height: calc(100% - 60px); /* Assicura che la sidebar occupi lo spazio rimanente */
     }
+
     .home-section h2, .create-book-section h2 {
         font-size: 1.5em;
     }
